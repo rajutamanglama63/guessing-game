@@ -1,0 +1,91 @@
+/* 
+
+Write your guess-game code here! Don't forget to look at the test specs as a guide. You can run the specs
+by running "testem".
+
+In this file, you will also include the event listeners that are needed to interact with your HTML file when
+a user clicks a button or adds a guess to the input field.
+
+*/
+
+const generateWinningNumber = () => {
+  return Math.floor(Math.random() * 100 + 1);
+};
+
+function shuffle(arr) {
+  //Fisher-Yates - https://bost.ocks.org/mike/shuffle/
+  for (let i = arr.length - 1; i > 0; i--) {
+    let randomIndex = Math.floor(Math.random() * (i + 1));
+    let temp = arr[i];
+    arr[i] = arr[randomIndex];
+    arr[randomIndex] = temp;
+  }
+  return arr;
+}
+
+class Game {
+  constructor() {
+    (this.playersGuess = null),
+      (this.pastGuesses = []),
+      (this.winningNumber = generateWinningNumber());
+  }
+
+  difference = function () {
+    let absolute_num = Math.abs(this.playersGuess - this.winningNumber);
+    return absolute_num;
+  };
+
+  isLower = function () {
+    if (this.playersGuess < this.winningNumber) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  playersGuessSubmission = function (guessNum) {
+    if (typeof guessNum !== "number" || guessNum < 1 || guessNum > 100) {
+      throw "That is an invalid guess.";
+    }
+
+    this.playersGuess = guessNum;
+
+    return this.checkGuess();
+  };
+}
+
+Game.prototype.checkGuess = function () {
+  if (this.playersGuess === this.winningNumber) {
+    return "You Win!";
+  } else if (this.pastGuesses.includes(this.playersGuess)) {
+    return "You have already guessed that number.";
+  } else {
+    if (this.playersGuess !== this.winningNumber) {
+      this.pastGuesses.push(this.playersGuess);
+    } else if (this.pastGuesses.length === 5) {
+      return "You Lose.";
+    } else if (this.difference() < 10) {
+      return "You're burning up!";
+    } else if (this.difference() < 25) {
+      return "You're lukewarm.";
+    } else if (this.difference() < 50) {
+      return "You're a bit chilly.";
+    } else {
+      return "You're ice cold!";
+    }
+  }
+};
+
+const newGame = () => {
+  game = new Game();
+};
+
+const provideHint = () => {
+  let hintArray = [
+    this.winningNumber,
+    generateWinningNumber(),
+    generateWinningNumber(),
+  ];
+
+  return shuffle(hintArray);
+};
