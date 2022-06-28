@@ -8,9 +8,9 @@ a user clicks a button or adds a guess to the input field.
 
 */
 
-const generateWinningNumber = () => {
+function generateWinningNumber() {
   return Math.floor(Math.random() * 100 + 1);
-};
+}
 
 function shuffle(arr) {
   //Fisher-Yates - https://bost.ocks.org/mike/shuffle/
@@ -25,9 +25,10 @@ function shuffle(arr) {
 
 class Game {
   constructor() {
-    (this.playersGuess = null),
-      (this.pastGuesses = []),
-      (this.winningNumber = generateWinningNumber());
+    this.str = "";
+    this.playersGuess = null;
+    this.pastGuesses = [];
+    this.winningNumber = generateWinningNumber();
   }
 
   difference = function () {
@@ -46,9 +47,9 @@ class Game {
   playersGuessSubmission = function (guessNum) {
     if (typeof guessNum !== "number" || guessNum < 1 || guessNum > 100) {
       throw "That is an invalid guess.";
+    } else {
+      this.playersGuess = guessNum;
     }
-
-    this.playersGuess = guessNum;
 
     return this.checkGuess();
   };
@@ -56,31 +57,34 @@ class Game {
 
 Game.prototype.checkGuess = function () {
   if (this.playersGuess === this.winningNumber) {
-    return "You Win!";
+    this.str = "You Win!";
   } else if (this.pastGuesses.includes(this.playersGuess)) {
-    return "You have already guessed that number.";
+    this.str = "You have already guessed that number.";
   } else {
-    if (this.playersGuess !== this.winningNumber) {
-      this.pastGuesses.push(this.playersGuess);
-    } else if (this.pastGuesses.length === 5) {
-      return "You Lose.";
+    this.pastGuesses.push(this.playersGuess);
+    if (this.pastGuesses.length === 5) {
+      this.str = "You Lose.";
     } else if (this.difference() < 10) {
-      return "You're burning up!";
+      this.str = "You're burning up!";
     } else if (this.difference() < 25) {
-      return "You're lukewarm.";
+      this.str = "You're lukewarm.";
     } else if (this.difference() < 50) {
-      return "You're a bit chilly.";
+      this.str = "You're a bit chilly.";
     } else {
-      return "You're ice cold!";
+      this.str = "You're ice cold!";
     }
   }
+
+  document.querySelector(".interaction").innerHTML = this.str;
+
+  document.querySelector(
+    `.guess-list li:nth-child(${this.pastGuesses.length})`
+  ).innerHTML = this.playersGuess;
+
+  return this.str;
 };
 
-const newGame = () => {
-  game = new Game();
-};
-
-const provideHint = () => {
+Game.prototype.provideHint = function () {
   let hintArray = [
     this.winningNumber,
     generateWinningNumber(),
@@ -89,3 +93,24 @@ const provideHint = () => {
 
   return shuffle(hintArray);
 };
+
+const newGame = () => {
+  let game = new Game();
+  return game;
+};
+
+const playGame = () => {
+  let game = newGame();
+
+  const button = document.querySelector(".btn");
+
+  button.addEventListener("click", function () {
+    const playerGuess = +document.querySelector("input").value;
+
+    document.querySelector("input").value = "";
+
+    game.playersGuessSubmission(playerGuess);
+  });
+};
+
+playGame();

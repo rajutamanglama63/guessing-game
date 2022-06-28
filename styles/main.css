@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Trispace:wght@100;400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.game {
+  height: 100vh;
+  padding-top: 2rem;
+}
+.container {
+  background-color: #fff;
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  box-shadow: -1px 10px 20px -3px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -1px 10px 20px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 10px 20px -3px rgba(0, 0, 0, 0.75);
+}
+/* .heading-part {
+  border: 1px solid pink;
+} */
+
+.title {
+  font-family: Trispace;
+  font-weight: 700;
+}
+.instruction {
+  font-family: Trispace;
+  font-weight: 400;
+}
+.interaction {
+  font-family: Trispace;
+  font-weight: 100;
+  font-size: medium;
+  margin: 1rem 0;
+}
+.input-part {
+  margin-bottom: 1rem;
+}
+.input-field {
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  padding: 5px;
+  font-family: Trispace;
+  font-size: small;
+}
+.input-field:focus {
+  outline: none;
+}
+.btn {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(196, 216, 196);
+}
+.warning {
+  margin: 5px 0;
+  color: red;
+  font-size: xx-small;
+}
+.guess-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid green; */
+  margin: 0 auto;
+  width: 50%;
+}
+.guess-list-item {
+  /* padding: 10px; */
+  height: 35px;
+  width: 35px;
+  border-radius: 5px;
+  font-size: small;
+  background-color: rgb(196, 216, 196);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
